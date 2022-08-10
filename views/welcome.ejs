@@ -15,9 +15,43 @@
   <body>
     <div class="container">
       <div class="row">
-        <a href="/login" class="btn btn-primary">Log In</a>
+        <!-- <a href="/login" class="btn btn-primary">Log In</a>
         <br /><br />
-        <a href="/register" class="btn btn-success">Register</a>
+        <a href="/register" class="btn btn-success">Register</a> -->
+        <div class="col">
+          <h2>Login</h2>
+          <form action="/login" method="post">
+            <label for="emailOrUsername"> Email or Username </label>
+            <input type="text" name="emailOrUsername" class="form-control" id="emailOrUsername" />
+            <br /><br />
+            <label for="password"> Password </label>
+            <input type="password" name="password" class="form-control" id="password" />
+            <br /><br />
+            <button type="submit" class="btn btn-primary" name="login">Log In</button>
+          </form>
+        </div>
+        <div class="col">
+          <h2>Register</h2>
+          <form action="/register" method="post">
+            <label for="firstname"> Firstname </label>
+            <input type="text" name="firstname" class="form-control" id="firstname" />
+            <br /><br />
+            <label for="lastname"> Lastname </label>
+            <input type="text" name="lastname" class="form-control" id="lastname" />
+            <br /><br />
+            <label for="username"> Username </label>
+            <input type="text" name="username" class="form-control" id="username" />
+            <br /><br />
+            <label for="email"> Email </label>
+            <input type="text" name="email" class="form-control" id="email" />
+            <br /><br />
+            <label for="password"> Password </label>
+            <input type="password" name="password" class="form-control" id="password" />
+            <br /><br />
+            <button type="submit" class="btn btn-success" name="register">Register</button>
+          </form>
+        </div>
+      </div>
       </div>
     </div>
   </body>
