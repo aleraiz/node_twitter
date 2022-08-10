@@ -3,15 +3,15 @@ const bcrypt = require("bcryptjs");
 require("../config/passportConfig");
 
 async function home(req, res) {
-  res.send("HOME");
+  res.render("home");
 }
 async function welcome(req, res) {
   res.render("welcome");
 }
 
-// async function showLogin(req, res) {
-//   res.render("login");
-// }
+async function error(req, res) {
+  res.render("enConstruccion");
+}
 
 // async function showRegister(req, res) {
 //   res.render("register");
@@ -30,4 +30,5 @@ module.exports = {
   welcome,
   store,
   home,
+  error,
 };

@@ -7,9 +7,9 @@ const authenticatePassport = require("../middlewares/passportAuthenticate");
 // ...
 publicRouter.get("/", pagesController.home);
 publicRouter.get("/welcome", pagesController.welcome);
-// publicRouter.get("/login", pagesController.showLogin);
 publicRouter.post("/login", authenticatePassport);
-// publicRouter.get("/register", pagesController.showRegister);
 publicRouter.post("/users", pagesController.store);
+
+publicRouter.get("/enConstruccion", pagesController.error);
 
 module.exports = publicRouter;
