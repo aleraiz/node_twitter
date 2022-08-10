@@ -10,6 +10,6 @@ publicRouter.get("/welcome", pagesController.welcome);
 // publicRouter.get("/login", pagesController.showLogin);
 publicRouter.post("/login", authenticatePassport);
 // publicRouter.get("/register", pagesController.showRegister);
-publicRouter.post("/register", pagesController.register);
+publicRouter.post("/users", pagesController.store);
 
 module.exports = publicRouter;
