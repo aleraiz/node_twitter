@@ -1,4 +1,5 @@
 const Tweet = require("../models/Tweet");
+require("passport");
 
 // Display a listing of the resource.
 async function index(req, res) {}
@@ -21,8 +22,14 @@ async function store(req, res) {
   res.redirect("/");
 }
 
-// Show the form for editing the specified resource.
-async function edit(req, res) {}
+async function logout(req, res) {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/welcome");
+  });
+}
 
 // Update the specified resource in storage.
 async function update(req, res) {}
@@ -38,6 +45,7 @@ module.exports = {
   // show,
   // create,
   store,
+  logout,
   // edit,
   // update,
   // destroy,
