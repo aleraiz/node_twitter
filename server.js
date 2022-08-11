@@ -6,6 +6,8 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const session = require("express-session");
 const methodOverride = require("method-override");
+const tweetSeeder = require("./seeders/tweetSeeder");
+const userSeeder = require("./seeders/userSeeder");
 
 // const dbInitialSetup = require("./dbInitialSetup");
 const APP_PORT = process.env.APP_PORT || 3000;
@@ -25,9 +27,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.set("view engine", "ejs");
 require("./config/passportConfig");
+// userSeeder();
+// tweetSeeder();
 routes(app);
-
-// dbInitialSetup(); // Crea tablas e inserta datos de prueba.
 
 app.listen(APP_PORT, () => {
   console.log(`\n[Express] Servidor corriendo en el puerto ${APP_PORT}.`);

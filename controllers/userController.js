@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const Tweet = require("../models/Tweet");
 
 // Display a listing of the resource.
 async function index(req, res) {}
@@ -10,7 +10,16 @@ async function show(req, res) {}
 async function create(req, res) {}
 
 // Store a newly created resource in storage.
-async function store(req, res) {}
+async function store(req, res) {
+  console.log(req.user);
+  await Tweet.create({
+    text: req.body.tweetContent,
+    author: req.params.id,
+    createdAt: new Date(),
+    likes: [],
+  });
+  res.redirect("/");
+}
 
 // Show the form for editing the specified resource.
 async function edit(req, res) {}
@@ -25,11 +34,11 @@ async function destroy(req, res) {}
 // ...
 
 module.exports = {
-  index,
-  show,
-  create,
+  // index,
+  // show,
+  // create,
   store,
-  edit,
-  update,
-  destroy,
+  // edit,
+  // update,
+  // destroy,
 };

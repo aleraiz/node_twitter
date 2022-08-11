@@ -1,9 +1,13 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
+const Tweet = require("../models/Tweet");
+const formatDistanceToNow = require("date-fns/formatDistanceToNow");
 require("../config/passportConfig");
 
 async function home(req, res) {
-  res.render("home");
+  const tweets = await Tweet.find().sort({ createdAt: "descending" }).populate("author");
+  const user = await User.findById(req.user.id);
+  res.render("home", { tweets, user, formatDistanceToNow });
 }
 async function welcome(req, res) {
   res.render("welcome");

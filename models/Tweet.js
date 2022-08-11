@@ -6,18 +6,21 @@ const tweetSchema = new Schema({
     type: String,
     maxLength: 140,
   },
-  author: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "users",
-    },
-  ],
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
   createdAt: {
     type: Date,
     immutable: true,
     default: () => Date.now(),
   },
-  likes: Number,
+  likes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
 });
 
 module.exports = mongoose.model("Tweet", tweetSchema);
