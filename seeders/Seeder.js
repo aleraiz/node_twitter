@@ -43,15 +43,20 @@ module.exports = async () => {
   for (let i = 1; i <= 10; i++) {
     // Again query all users but only fetch one offset by our random #
     let user = lodash.sample(users);
-    console.log('user:', user);
+    
     const tweet = new Tweet({
       text: faker.lorem.sentence(20),
       author: { _id: user.id },
       createdAt: faker.date.past(),
       likes: [],
     });
+
     await tweets.push(tweet);
+
+    user.tweets.push(tweet.id);
   }
+
+
   Tweet.deleteMany({}, function () {
     console.log("Success tweet");
   });
