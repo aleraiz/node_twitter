@@ -11,7 +11,6 @@ module.exports = async () => {
     const user = new User({
       firstname: faker.name.firstName(),
       lastname: faker.name.lastName(),
-      //faker.internet.userName
       username: faker.name.prefix() + " " + faker.name.middleName(),
       email: faker.internet.email(),
       password: "12345",
@@ -26,22 +25,17 @@ module.exports = async () => {
 
   // Agregamos followers y followings  a los usuarios
   for (let i = 0; i < users.length; i++) {
-    // console.log(users[i]);
     let allUsers = [...users]; // array con todos los usuarios
-    allUsers.slice(i, 1); // array con todos los usuarios menos el que estamos
-    let chosenUsers = lodash.sampleSize(allUsers, lodash.random(0, 9)); // agarra de 0 a 9 usuarios cualquiera dentro de allUsers
+    let chosenUsers = lodash.without(lodash.sampleSize(allUsers, lodash.random(0, 9)), users[i].id); // agarra de 0 a 9 usuarios cualquiera dentro de allUsers
 
     for (let j = 0; j < chosenUsers.length; j++) {
-      if (users[i].id !== chosenUsers[j].id) {
-        users[i].followers.push(chosenUsers[j].id);
-        chosenUsers[j].following.push(users[i].id);
-      }
+      users[i].followers.push(chosenUsers[j].id);
+      chosenUsers[j].following.push(users[i].id);
     }
   }
   const tweets = [];
 
   for (let i = 1; i <= 10; i++) {
-    // Again query all users but only fetch one offset by our random #
     let user = lodash.sample(users);
 
     const tweet = new Tweet({

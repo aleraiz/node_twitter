@@ -65,7 +65,7 @@ async function followUnfollow(req, res) {
     await User.updateOne({ _id: mainUser.id }, { $pull: { following: user.id } });
     console.log("se quito follow");
   }
-  res.redirect(req.get("referer"));
+  res.redirect("/");
 }
 
 async function logout(req, res) {
