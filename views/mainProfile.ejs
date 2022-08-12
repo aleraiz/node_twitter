@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <%= user.firstname %> <%= user.lastname %> - <%= user.username %>
+    <br /><br />
+    <%= user.description %> <% for(let i = 0; i < tweets.length; i++) {%> <%= tweets[i].text %>
+    <form action="/user/mainProfile/<%= tweets[i].id %>?_method=DELETE " method="post">
+      <button type="submit">Borrar</button>
+    </form>
+    <% } %>
+    <a href="/user/mainProfile/<%= user.id %>/followers">Followers</a>
+    <a href="/user/mainProfile/<%= user.id %>/following">Following</a>
+    <a href="/user/mainProfile/<%= user.id %>/edit">Edit Profile</a>
+  </body>
+</html>

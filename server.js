@@ -27,7 +27,7 @@ app.use(methodOverride("_method"));
 app.set("view engine", "ejs");
 require("./config/passportConfig");
 
-Seeder();
+// Seeder();
 
 routes(app);
 

@@ -21,7 +21,7 @@ module.exports = async () => {
       following: [],
       likes: [],
     });
-    await users.push(user);
+    users.push(user);
   }
 
   // Agregamos followers y followings  a los usuarios
@@ -43,7 +43,7 @@ module.exports = async () => {
   for (let i = 1; i <= 10; i++) {
     // Again query all users but only fetch one offset by our random #
     let user = lodash.sample(users);
-    
+
     const tweet = new Tweet({
       text: faker.lorem.sentence(20),
       author: { _id: user.id },
@@ -51,11 +51,19 @@ module.exports = async () => {
       likes: [],
     });
 
-    await tweets.push(tweet);
+    tweets.push(tweet);
 
     user.tweets.push(tweet.id);
   }
 
+  for (let i = 1; i <= 10; i++) {
+    let user = lodash.sample(users);
+    let tweet = lodash.sample(tweets);
+    if (!user.tweets.includes(tweet.id) && !user.likes.includes(tweet.id)) {
+      user.likes.push(tweet.id);
+      tweet.likes.push(user.id);
+    }
+  }
 
   Tweet.deleteMany({}, function () {
     console.log("Success tweet");
@@ -64,7 +72,7 @@ module.exports = async () => {
   User.deleteMany({}, function () {
     console.log("Success user");
   });
-  
+
   User.collection.insertMany(users, (error, docs) => {
     if (!error) {
       console.log(docs);
