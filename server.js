@@ -21,7 +21,7 @@ app.use(
 );
 app.use(passport.session());
 
-app.use(express.static("public"));
+app.use(express.static(__dirname + "/public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(function (req, res, next) {
   res.locals.user = req.user;
