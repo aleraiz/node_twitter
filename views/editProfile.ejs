@@ -7,6 +7,7 @@
     <title>Document</title>
   </head>
   <body>
+    <%- include("partials/navbar") %>
     <form
       action="/user/mainProfile/<%= user.id %>/edit?_method=PATCH"
       method="post"
@@ -30,5 +31,6 @@
       <br /><br />
       <button type="submit">Submit Changes</button>
     </form>
+    <%- include("partials/footer") %>
   </body>
 </html>

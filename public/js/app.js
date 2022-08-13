@@ -1,4 +1,6 @@
-/**
- * Colocar aquí JS "propio".
- * Notar que este código se ejecutará en el navegador.
- */
+const loginBtn = document.querySelector("#buttonLoginModal");
+const loginModalBg = document.querySelector(".loginModalBg");
+
+loginBtn.addEventListener("click", function () {
+  loginModalBg.classList.add("loginModalActive");
+});

@@ -1,1 +1,25 @@
-/* Colocar aquí CSS "propio" */
+.loginModal {
+  background-color: white;
+  width: 35%;
+  height: 50%;
+}
+
+.loginModalBg {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s opacity 0.5s;
+}
+
+.loginModalActive {
+  visibility: visible;
+  opacity: 1;
+}

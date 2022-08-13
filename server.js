@@ -7,7 +7,6 @@ const passport = require("passport");
 const session = require("express-session");
 const methodOverride = require("method-override");
 const Seeder = require("./seeders/Seeder");
-const recomendedUsers = require("./middlewares/sendDataToPartials");
 
 // const dbInitialSetup = require("./dbInitialSetup");
 const APP_PORT = process.env.APP_PORT || 3000;
@@ -27,7 +26,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(function (req, res, next) {
   res.locals.user = req.user;
   res.locals.url = req.url;
-  res.locals.recomendedUsers = recomendedUsers;
   next();
 });
 app.use(methodOverride("_method"));
