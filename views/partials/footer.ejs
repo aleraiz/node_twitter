@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="col-3 d-flex flex-column p-0" style="height: 100vh">
+      <div class="mt-1">
+        <input
+          type=""
+          class="form-control bor"
+          aria-describedby="passwordHelpBlock"
+          placeholder="Buscar en Twitter"
+          style="background-color: rgb(216, 214, 214)"
+        />
+      </div>
+      <div class="d-flex flex-column mt-5 rounded p-3" style="background-color: rgb(216, 214, 214)">
+        <div class="py-4">Tendencias para ti</div>
+
+        <div class="mb-2">
+          <div class="d-flex">
+            <div style="color: grey">Deportes - Tendencia</div>
+            <div></div>
+          </div>
+          <div class="fw-bold">Uruguay</div>
+          <div style="color: grey">2.637 Tweets</div>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column mt-5 rounded p-3" style="background-color: rgb(216, 214, 214)">
+        <div class="py-4">A quién seguir</div>
+        <% for (const recoUser of recomendedUsers) { %>
+        <div class="row d-flex">
+          <div class="col-3 d-flex justify-content-center align-items-center">
+            <img src="/img/<%=recoUser.profileImg%> " alt="" style="width: 50px" />
+          </div>
+          <div class="mb-2 col-5 pe-0">
+            <div class="fw-bold"><%=recoUser.firstname%> <%=recoUser.lastname%></div>
+            <div style="color: grey">@<%=recoUser.username%></div>
+          </div>
+          <form
+            class="p-0 col d-flex justify-content-center align-items-center"
+            action="/user/profile/<%=recoUser.id%>"
+            method="post"
+          >
+            <button class="btn btn-dark" type="submit">
+              <% if(user.following.includes(recoUser.id)){ %> Following <% } else{ %> Follow <% } %>
+            </button>
+          </form>
+        </div>
+        <br />
+
+        <%} %>
+      </div>
+    </div>
+  </body>
+</html>

@@ -17,63 +17,8 @@
   <body>
     <div class="container">
       <div class="row d-flex mt-1 justify-content-between">
-        <div class="col-3 d-flex flex-column justify-content-between" style="height: 100vh">
-          <div class="col">
-            <ul style="list-style: none">
-              <li>
-                <a href=""
-                  ><img
-                    src="/img/logo.png"
-                    class="mt-2 mb-4"
-                    style="max-width: 50px"
-                    alt="logoTwitter"
-                /></a>
-              </li>
-              <li class="my-2 fs-4">
-                <a style="text-decoration: none; color: black" href="/enConstruccion">Explorar</a>
-              </li>
-              <li class="my-2 fs-4">
-                <a style="text-decoration: none; color: black" href="/enConstruccion"
-                  >Notificaciones</a
-                >
-              </li>
-              <li class="my-2 fs-4">
-                <a style="text-decoration: none; color: black" href="/enConstruccion">Mensajes</a>
-              </li>
-              <li class="my-2 fs-4">
-                <a style="text-decoration: none; color: black" href="/enConstruccion">Guardados</a>
-              </li>
-              <li class="my-2 fs-4">
-                <a style="text-decoration: none; color: black" href="/enConstruccion">Listas</a>
-              </li>
-              <li class="my-2 fs-4">
-                <a
-                  style="text-decoration: none; color: black"
-                  href="/user/mainProfile/<%=user.id%> "
-                  >Perfil</a
-                >
-              </li>
-              <li class="my-2 fs-4">
-                <a style="text-decoration: none; color: black" href="/enConstruccion"
-                  >Más opciones</a
-                >
-              </li>
-              <li class="my-4">
-                <a
-                  style="text-decoration: none; color: black"
-                  href=""
-                  class="btn btn-primary rounded-pill btn-lg"
-                  >Twittear</a
-                >
-              </li>
-            </ul>
-          </div>
-          <div class="col-1">
-            <form action="/user/?_method=DELETE" method="post">
-              <button type="submit" class="btn btn-primary">Logout</button>
-            </form>
-          </div>
-        </div>
+        <%- include("partials/navbar") %>
+
         <div class="col d-flex flex-column">
           <div class="d-flex justify-content-between">
             <h2>Inicio</h2>
@@ -208,62 +153,7 @@
           </div>
           <% } %>
         </div>
-        <div class="col-3 d-flex flex-column p-0" style="height: 100vh">
-          <div class="mt-1">
-            <input
-              type=""
-              class="form-control bor"
-              aria-describedby="passwordHelpBlock"
-              placeholder="Buscar en Twitter"
-              style="background-color: rgb(216, 214, 214)"
-            />
-          </div>
-          <div
-            class="d-flex flex-column mt-5 rounded p-3"
-            style="background-color: rgb(216, 214, 214)"
-          >
-            <div class="py-4">Tendencias para ti</div>
-
-            <div class="mb-2">
-              <div class="d-flex">
-                <div style="color: grey">Deportes - Tendencia</div>
-                <div></div>
-              </div>
-              <div class="fw-bold">Uruguay</div>
-              <div style="color: grey">2.637 Tweets</div>
-            </div>
-          </div>
-
-          <div
-            class="d-flex flex-column mt-5 rounded p-3"
-            style="background-color: rgb(216, 214, 214)"
-          >
-            <div class="py-4">A quién seguir</div>
-            <% for (const recoUser of recomendedUsers) { %>
-            <div class="row d-flex">
-              <div class="col-3 d-flex justify-content-center align-items-center">
-                <img src="/img/<%=recoUser.profileImg%> " alt="" style="width: 50px" />
-              </div>
-              <div class="mb-2 col-5 pe-0">
-                <div class="fw-bold"><%=recoUser.firstname%> <%=recoUser.lastname%></div>
-                <div style="color: grey">@<%=recoUser.username%></div>
-              </div>
-              <form
-                class="p-0 col d-flex justify-content-center align-items-center"
-                action="/user/profile/<%=recoUser.id%>"
-                method="post"
-              >
-                <button class="btn btn-dark" type="submit">
-                  <% if(user.following.includes(recoUser.id)){ %> Following <% } else{ %> Follow <%
-                  } %>
-                </button>
-              </form>
-            </div>
-            <br />
-
-            <%} %>
-          </div>
-        </div>
+        <%- include("partials/footer") %>
       </div>
     </div>
   </body>
