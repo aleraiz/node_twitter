@@ -52,7 +52,7 @@ body {
 .loginModal {
   background-color: rgb(255, 255, 255);
   max-width: 35%;
-  color: white;
+  color: rgb(0, 0, 0);
 }
 
 .loginModalBg {
@@ -68,6 +68,7 @@ body {
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s opacity 0.5s;
+  z-index: 1;
 }
 
 .loginModalActive {
@@ -78,7 +79,7 @@ body {
 .registerModal {
   background-color: rgb(255, 255, 255);
   max-width: 35%;
-  color: white;
+  color: rgb(0, 0, 0);
 }
 
 .registerModalBg {
@@ -94,6 +95,7 @@ body {
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s opacity 0.5s;
+  z-index: 1;
 }
 
 .registerModalActive {

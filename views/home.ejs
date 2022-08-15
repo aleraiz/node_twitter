@@ -16,7 +16,6 @@
 
   <body>
     <% console.log(recomendedUsers) %>
-
     <div class="container">
       <div class="row d-flex mt-1 justify-content-between">
         <%- include("partials/navbar") %>
@@ -33,8 +32,8 @@
             </svg>
           </div>
 
-          <div class="d-flex">
-            <div>
+          <div class="row p-3">
+            <div class="col-1">
               <img
                 src="/img/<%= user.profileImg  %> "
                 class="mx-1"
@@ -42,18 +41,7 @@
                 alt=""
               />
             </div>
-            <div>
-              <div class="d-flex">
-                <a
-                  href="/user/mainProfile/<%= user.id %> "
-                  class="mx-1"
-                  style="text-decoration: none; color: black"
-                  ><%= user.firstname %>
-                  <span href="" style="text-decoration: none; color: rgb(112, 112, 112)"
-                    >@<%=user.username%></span
-                  >
-                </a>
-              </div>
+            <div class="col">
               <form action="/user/tweet/<%= user.id%>" method="post">
                 <textarea
                   name="tweetContent"
@@ -61,10 +49,13 @@
                   cols="50"
                   rows="2"
                   placeholder="¿Qué está pasando?"
+                  class="form-control d-block"
                 ></textarea>
-                <div class="d-flex justify-content-between mt-2">
+                <div class="d-flex justify-content-end mt-2">
                   <div>
-                    <button type="submit" class="btn btn-primary rounded-pill">Twittear</button>
+                    <button type="submit" class="btn btn-primary rounded-pill float-end">
+                      Twittear
+                    </button>
                   </div>
                 </div>
               </form>

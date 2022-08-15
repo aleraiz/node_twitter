@@ -3,6 +3,7 @@ const User = require("../models/User");
 const lodash = require("lodash");
 const formidable = require("formidable");
 const path = require("path");
+const formatDistanceToNow = require("date-fns/formatDistanceToNow");
 require("passport");
 
 // Display a listing of the resource.
@@ -10,17 +11,17 @@ async function index(req, res) {
   const user = await User.findById(req.user.id).populate("tweets");
   const tweets = await Tweet.find({ author: req.params.id });
   if (user.id === req.params.id) {
-    res.render("mainProfile", { user, tweets });
+    res.render("mainProfile", { user, tweets, formatDistanceToNow });
   } else {
-    res.render("userProfile", { user, tweets });
+    res.render("userProfile", { user, tweets, formatDistanceToNow });
   }
 }
 
 // Display the specified resource.
 async function show(req, res) {
-  const user = await User.findById(req.params.id).populate("tweets");
-  const mainUser = req.user;
-  res.render("userProfile", { user, mainUser });
+  const selectedUser = await User.findById(req.params.id).populate("tweets");
+  const user = req.user;
+  res.render("userProfile", { user, selectedUser, formatDistanceToNow });
 }
 
 // Show the form for creating a new resource
