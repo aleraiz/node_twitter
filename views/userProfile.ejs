@@ -26,12 +26,17 @@
           </div>
         </div>
         <div class="position-relative">
-          <div style="background-image: url('/img/fondoPerfil.jpg'); width: 100%; height: 300px; "></div>
+          <div style="background-image: url('/img/fondoPerfil.jpg'); width: 100%; height: 200px; "></div>
           <div class="px-2">
             <div class="d-flex justify-content-between align-items-center mx-2 position-relative">
               <div class="position-relative rounded-circle p-1 bg-light" style="top:-50px">
+                <% if (selectedUser.profileImg.includes('http')) { %>
+                <img src="<%= selectedUser.profileImg %>" class="profileImg mx-1 rounded-circle"
+                  style="width: 100px; height: 100px;" alt="profileImg" />
+                <%  } else {%>
                 <img src="/img/<%= selectedUser.profileImg %>" class="profileImg mx-1 rounded-circle"
-                  style="width: 100px; height: 100px;" alt="" />
+                  style="width: 100px; height: 100px;" alt="profileImg" />
+                <% } %>
               </div>
               <div class="">
                 <form action="/user/profile/<%= selectedUser.id %> " method="post">
@@ -66,12 +71,18 @@
         </div>
         <br /><br />
         <% for ( const tweet of selectedUser.tweets) {%>
-        <div class="bg-light py-1 border">
+        <div class="bg-light pb-1 pt-2 border">
           <div class="d-flex justify-content-between">
             <div class="col-1">
-              <img src="/img/<%= selectedUser.profileImg %>" class="mx-1" style="max-width: 40px" alt="" />
+              <% if (selectedUser.profileImg.includes('http')) { %>
+              <img src="<%= selectedUser.profileImg %>" class="profileImg mx-1 rounded-circle"
+                style="width: 40px; height: 40px;" alt="profileImg" />
+              <%  } else {%>
+              <img src="/img/<%= selectedUser.profileImg %>" class="profileImg mx-1 rounded-circle"
+                style="width: 40px; height: 40px;" alt="profileImg" />
+              <% } %>
             </div>
-            <div class="col-11">
+            <div class="col-10">
               <div class="d-flex">
                 <a href="/user/mainProfile/<%= selectedUser.id%>" class="mx-1"
                   style="text-decoration: none; color: black"><%= selectedUser.firstname%> <%= selectedUser.lastname%>
@@ -103,13 +114,19 @@
                 </div>
               </div>
             </div>
+            <div class="col-1 d-flex justify-content-center align-items-start">
+              <i class="fa-solid fa-ellipsis mt-2"></i>
+            </div>
+
           </div>
         </div>
+
         <% } %>
       </div>
       <%- include("partials/footer") %>
     </div>
   </div>
+
 </body>
 
 </html>
