@@ -1,0 +1,30 @@
+.btn-following:hover{
+    background-color: rgba(228, 144, 144, 0.647);
+    color: red;
+    border-color: rgba(237, 94, 94, 0.876);
+    content: 'Dejar de seguir';
+}
+.btn-following{
+    color: #000;
+    font-weight: bold;
+}
+
+.btn-follower:hover{
+    background-color:rgba(115, 111, 111, 0.884);
+}
+
+
+.btn-viewfollowers{
+    border: #000;
+}
+
+img{
+    width: 50%;
+    border-radius: 50%;
+}
+
+.view-toggler{
+   display: none;
+
+}
+

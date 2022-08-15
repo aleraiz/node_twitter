@@ -11,14 +11,16 @@
       <div class="mt-1">
         <input
           type=""
-          class="form-control bor"
+          class="form-control bor rounded-pill p-2"
           aria-describedby="passwordHelpBlock"
           placeholder="Buscar en Twitter"
-          style="background-color: rgb(216, 214, 214)"
+          style="background-color: #EFF3F4"
         />
       </div>
-      <div class="d-flex flex-column mt-5 rounded p-3" style="background-color: rgb(216, 214, 214)">
-        <div class="py-4">Tendencias para ti</div>
+      <div class="d-flex flex-column mt-5 rounded p-3" style="background-color: #EFF3F4">
+        <div class="py-2 mb-1" style="font-weight:bold; font-size: 1.3rem;">Qué está pasando</div>
+        <div>Tendencias para ti</div>
+        <div class="fw-bold mb-3">Uruguay</div>
 
         <div class="mb-2">
           <div class="d-flex">
@@ -30,8 +32,8 @@
         </div>
       </div>
 
-      <div class="d-flex flex-column mt-5 rounded p-3" style="background-color: rgb(216, 214, 214)">
-        <div class="py-4">A quién seguir</div>
+      <div class="d-flex flex-column mt-5 rounded p-3" style="background-color: #EFF3F4">
+        <div class="py-4" style="font-weight: bold ; font-size: 1.3rem;">A quién seguir</div>
         <% for (const recoUser of recomendedUsers) { %>
         <div class="row d-flex">
           <div class="col-3 d-flex justify-content-center align-items-center">
@@ -46,7 +48,7 @@
             action="/user/profile/<%=recoUser.id%>"
             method="post"
           >
-            <button class="btn btn-dark" type="submit">
+            <button class="btn btn-dark rounded-pill" type="submit">
               <% if(user.following.includes(recoUser.id)){ %> Following <% } else{ %> Follow <% } %>
             </button>
           </form>
