@@ -21,3 +21,6 @@ registerBtn.addEventListener("click", function () {
 registerBtnClose.addEventListener("click", function () {
   registerModalBg.classList.remove("registerModalActive");
 });
+
+
+

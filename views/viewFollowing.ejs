@@ -4,16 +4,101 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Personas que sigue <%= user.firstname %> (@<%=user.username  %> ) </title>
+    <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+    crossorigin="anonymous"
+  />
+  <link rel="stylesheet" href="/css/followingViews.css" type="text/css">
   </head>
   <body>
-    <% for(let follow of user.following){ %> <%= follow.firstname %> <%= follow.lastname %> @<%=
-    follow.username %>
-    <form action="/user/profile/<%= follow.id %> " method="post">
-      <button type="submit">
-        <% if(user.following.includes(follow.id)){ %> Following <% } else{ %> Follow <% } %>
-      </button>
+<div class="container">
+  <div class="row">
+
+    <%- include("partials/navbar") %>
+
+    <div class="col">
+      <div class="d-flex">
+
+      <div class="d-flex justify-content-center align-items-center me-4">
+        <a href="/"><img
+            src="/img/arrow-left-solid.svg" alt="arrowBack" style="width:20px ;"></a></i>
+      </div>
+           
+      <div>
+        <div style="font-weight: bold;"><%= user.firstname %> <%= user.lastname %> </div>
+        <div style="color: grey;">@<%= user.username %> </div>
+      </div>
+    </div>
+      <div class="col-12 d-flex justify-content-around">
+       <button class="btn  btn-control btn-viewFollowers">Seguidores</button>
+       <button class="btn  btn-control btn-viewFollowing">Seguidos</button>
+      </div>
+  
+
+    <div class="col flex-column view-toggler " id="following">
+         
+      <% for(let follow of user.following){%>
+      
+      <div class="row d-flex rounded p-3">
+
+        <div class="col-3 d-flex"><img src="/img/<%= user.profileImg %>" alt=""></div>
+     
+
+      <div class="mb-2 col-5 pe-0">
+        <div style="font-weight: bold;">
+          <%= follow.firstname %>
+        </div>
+        <div style="color:grey ;">
+        @<%= follow.username%>
+      </div>
+    </div>
+
+    <form action="" class="col d-flex">
+      <div class="col">
+        <button class="btn btn-outline-dark btn-following rounded-pill">Following</button>
+      </div>
     </form>
-    <% } %>
+
+   
+  </div>
+  <%}%>
+</div>
+<div class="col d-flex flex-column" id="followers">
+
+  <% for(let follower of user.followers){%>
+  
+  <div class="row d-flex rounded p-3">
+
+    <div class="col-3 d-flex"><img src="/img/<%= user.profileImg %>" alt=""></div>
+ 
+
+  <div class="mb-2 col-5 pe-0">
+    <div style="font-weight: bold;">
+      <%= follower.firstname %>
+    </div>
+    <div style="color:grey ;">
+    @<%= follower.username%>
+  </div>
+</div>
+
+<form action="" class="col d-flex">
+  <div class="col">
+    <button class="btn btn-outline-dark btn-follower rounded-pill">Follows you</button>
+  </div>
+</form>
+</div>
+<%}%>
+</div>
+</div>
+<%- include("partials/footer") %>
+</div>
+
+</div>
+
+
+<script src="/js/follow.js"></script>
   </body>
 </html>
