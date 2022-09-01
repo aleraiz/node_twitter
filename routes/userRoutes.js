@@ -1,10 +1,10 @@
 const express = require("express");
 const userRouter = express.Router();
 const userController = require("../controllers/userController");
-const verifyNoAuth = require("../middlewares/verifyNoAuthenticated");
+// const verifyNoAuth = require("../middlewares/verifyNoAuthenticated");
 const recomendedUsers = require("../middlewares/sendDataToPartials");
 
-userRouter.use(verifyNoAuth);
+// userRouter.use(verifyNoAuth);
 userRouter.post("/tweet/:id", userController.store);
 userRouter.post("/tweetLike/:id", userController.like);
 userRouter.delete("/", userController.logout);

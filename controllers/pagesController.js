@@ -1,12 +1,10 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const Tweet = require("../models/Tweet");
-const formatDistanceToNow = require("date-fns/formatDistanceToNow");
-const lodash = require("lodash");
-require("../config/passportConfig");
+const jwt = require("jsonwebtoken");
 
 async function home(req, res) {
-  const user = await User.findById(req.user.id);
+  const user = await User.findById(req.params.userId).populate("tweets");
   const tweets = [];
   const userTweet = await Tweet.find({ author: user.id })
     .sort({ createdAt: "descending" })
@@ -18,38 +16,46 @@ async function home(req, res) {
       .populate("author");
     tweets.push(...tweet);
   }
-
-  // const otherUsers = await User.find({ _id: { $ne: user.id } }, `id`);
-  // const otherUsersId = [];
-  // for (let i = 0; i < otherUsers.length; i++) {
-  //   otherUsersId.push(otherUsers[i]._id);
-  // }
-  // const usersFollowed = user.following;
-  // const allRecomendedUsers = otherUsersId.filter((x) => !usersFollowed.includes(x));
-  // const recomendedUsersId = lodash.sampleSize(allRecomendedUsers, 3);
-  // const recomendedUsers = [];
-  // for (let i = 0; i < recomendedUsersId.length; i++) {
-  //   recomendedUsers.push(await User.findById(recomendedUsersId[i]));
-  // }
-
-  res.render("home", { tweets, user, formatDistanceToNow });
+  res.json({ tweets, user });
+  // console.log(user);
+  // res.json({ user });
 }
+
+async function login(req, res) {
+  console.log(req.query);
+  const user = await User.findOne({
+    // $or: [{ email: req.query.emailOrUsername }, { username: req.query.emailOrUsername }],
+    $or: [{ email: req.params.emailOrUsername }, { username: req.params.emailOrUsername }],
+  });
+  if (!user) {
+    res.json("usuario inexistente");
+  }
+  // const verifyPassword = await bcrypt.compare(req.query.password, user.password);
+  const verifyPassword = await bcrypt.compare(req.params.password, user.password);
+
+  if (!verifyPassword) {
+    res.json("contraseña incorrecta");
+  }
+  const token = jwt.sign({ id: user.id, username: user.username }, "UnStringMuyScreto");
+
+  res.json({ userId: user.id, userName: user.username, token });
+}
+
 async function welcome(req, res) {
+  // res.json("welcome");
   res.render("welcome");
 }
 
 async function error(req, res) {
-  res.render("enConstruccion");
+  res.json("enConstruccion");
 }
 
-// async function showRegister(req, res) {
-//   res.render("register");
-// }
-
 async function store(req, res) {
+  console.log(req.body);
+  // console.log(req);
   const passwordHash = await bcrypt.hash(req.body.password, 10);
   await User.create({ ...req.body, password: passwordHash });
-  res.redirect("/welcome");
+  res.status(201).json("Usuario creado");
 }
 
 // Otros handlers...
@@ -60,4 +66,5 @@ module.exports = {
   store,
   home,
   error,
+  login,
 };

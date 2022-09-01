@@ -4,16 +4,15 @@ const lodash = require("lodash");
 const formidable = require("formidable");
 const path = require("path");
 const formatDistanceToNow = require("date-fns/formatDistanceToNow");
-require("passport");
 
 // Display a listing of the resource.
 async function index(req, res) {
-  const user = await User.findById(req.user.id).populate("tweets");
+  const user = await User.findById(req.params.id).populate("tweets");
   const tweets = await Tweet.find({ author: req.params.id });
   if (user.id === req.params.id) {
-    res.render("mainProfile", { user, tweets, formatDistanceToNow });
+    res.json({ user, tweets });
   } else {
-    res.render("userProfile", { user, tweets, formatDistanceToNow });
+    res.json({ user, tweets });
   }
 }
 
@@ -21,7 +20,7 @@ async function index(req, res) {
 async function show(req, res) {
   const selectedUser = await User.findById(req.params.id).populate("tweets");
   const user = req.user;
-  res.render("userProfile", { user, selectedUser, formatDistanceToNow });
+  res.json({ user, selectedUser });
 }
 
 // Show the form for creating a new resource
@@ -38,19 +37,24 @@ async function like(req, res) {
     await User.updateOne({ _id: `${req.user.id}` }, { $pull: { likes: req.params.id } });
     console.log("se quito like");
   }
-  res.redirect("/");
+  res.status(201);
 }
+
+//http://localhost:3000/user/tweet/62fa6e710ae422631b32e5e7
 
 // Store a newly created resource in storage.
 async function store(req, res) {
   console.log(req.user);
-  await Tweet.create({
+
+  const newTweet = await Tweet.create({
     text: req.body.tweetContent,
     author: req.params.id,
     createdAt: new Date(),
     likes: [],
   });
-  res.redirect("/");
+
+  await User.updateOne({ _id: `${req.params.id}` }, { $push: { tweets: newTweet.id } });
+  res.status(201);
 }
 
 async function followUnfollow(req, res) {
@@ -66,7 +70,7 @@ async function followUnfollow(req, res) {
     await User.updateOne({ _id: mainUser.id }, { $pull: { following: user.id } });
     console.log("se quito follow");
   }
-  res.redirect("/");
+  res.status(201);
 }
 
 async function logout(req, res) {
@@ -74,26 +78,26 @@ async function logout(req, res) {
     if (err) {
       return next(err);
     }
-    res.redirect("/welcome");
+    res.status(201);
   });
 }
 
 // Update the specified resource in storage.
 async function showFollowers(req, res) {
   const user = await User.findById(req.user.id).populate("followers");
-  res.render("viewFollowers", { user });
+  res.json({ user });
 }
 
 async function showFollowing(req, res) {
   const user = await User.findById(req.user.id).populate("following");
-  res.render("viewFollowing", { user });
+  res.json({ user });
 }
 // Remove the specified resource from storage.
 async function destroy(req, res) {
   await Tweet.deleteOne({ _id: req.params.id });
   await User.updateOne({ _id: req.user.id }, { $pull: { tweets: req.params.id } });
 
-  res.redirect(`/user/mainProfile/${req.user.id}`);
+  res.status(201);
 }
 
 // Otros handlers...
@@ -101,7 +105,7 @@ async function destroy(req, res) {
 async function edit(req, res) {
   const user = await User.findOne({ _id: req.user.id });
   console.log(user);
-  res.render(`editProfile`, { user });
+  res.json({ user });
 }
 
 async function update(req, res) {
@@ -122,7 +126,7 @@ async function update(req, res) {
       },
     );
   });
-  res.redirect(`/user/mainProfile/${req.user.id}`);
+  res.status(201);
 }
 
 module.exports = {
