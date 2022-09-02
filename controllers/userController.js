@@ -3,7 +3,51 @@ const User = require("../models/User");
 const lodash = require("lodash");
 const formidable = require("formidable");
 const path = require("path");
-const formatDistanceToNow = require("date-fns/formatDistanceToNow");
+
+async function user(req, res) {
+  // console.log(req.params.id);
+  const user = await User.find(
+    { _id: req.params.id },
+    "firstname lastname username email profileImg tweets following followers likes",
+  );
+  // console.log(user);
+  res.json({ user });
+}
+
+async function followingTweets(req, res) {
+  const user = await User.findById(req.params.id);
+  const tweets = [];
+  for (let i = 0; i < user.following.length; i++) {
+    let tweet = await Tweet.find({ author: user.following[i] })
+      .sort({ createdAt: "descending" })
+      .populate("author");
+    tweets.push(tweet);
+  }
+  res.json({ tweets });
+}
+
+async function userTweets(req, res) {
+  const tweets = await Tweet.find({ author: req.params.userId });
+  res.json({ tweets });
+}
+
+async function userRecomended(req, res) {
+  const mainUser = await User.findById(req.params.id);
+
+  const otherUsers = await User.find({ _id: { $ne: mainUser.id } }, `id`);
+  const otherUsersId = [];
+  for (let i = 0; i < otherUsers.length; i++) {
+    otherUsersId.push(otherUsers[i]._id);
+  }
+  const usersFollowed = mainUser.following;
+  const allRecomendedUsers = otherUsersId.filter((x) => !usersFollowed.includes(x));
+  const recomendedUsersId = lodash.sampleSize(allRecomendedUsers, 3);
+  const recomendedUsers = [];
+  for (let i = 0; i < recomendedUsersId.length; i++) {
+    recomendedUsers.push(await User.findById(recomendedUsersId[i]));
+  }
+  res.json({ recomendedUsers });
+}
 
 // Display a listing of the resource.
 async function index(req, res) {
@@ -29,23 +73,19 @@ async function like(req, res) {
   const tweet = await Tweet.findOne({ _id: `${req.params.id}` });
   console.log(tweet);
   if (!user.likes.includes(tweet.id)) {
-    await Tweet.updateOne({ _id: `${req.params.id}` }, { $push: { likes: req.user.id } });
-    await User.updateOne({ _id: `${req.user.id}` }, { $push: { likes: req.params.id } });
+    await Tweet.updateOne({ _id: `${req.params.id}` }, { $push: { likes: req.body.user.id } });
+    await User.updateOne({ _id: `${req.body.user.id}` }, { $push: { likes: req.params.id } });
     console.log("se dio like");
   } else {
-    await Tweet.updateOne({ _id: `${req.params.id}` }, { $pull: { likes: req.user.id } });
-    await User.updateOne({ _id: `${req.user.id}` }, { $pull: { likes: req.params.id } });
+    await Tweet.updateOne({ _id: `${req.params.id}` }, { $pull: { likes: req.body.user.id } });
+    await User.updateOne({ _id: `${req.body.user.id}` }, { $pull: { likes: req.params.id } });
     console.log("se quito like");
   }
   res.status(201);
 }
 
-//http://localhost:3000/user/tweet/62fa6e710ae422631b32e5e7
-
 // Store a newly created resource in storage.
 async function store(req, res) {
-  console.log(req.user);
-
   const newTweet = await Tweet.create({
     text: req.body.tweetContent,
     author: req.params.id,
@@ -58,7 +98,7 @@ async function store(req, res) {
 }
 
 async function followUnfollow(req, res) {
-  const mainUser = req.user;
+  const mainUser = await User.findById(req.body.user.id);
   const user = await User.findOne({ _id: req.params.id });
 
   if (!user.followers.includes(mainUser.id)) {
@@ -83,19 +123,19 @@ async function logout(req, res) {
 }
 
 // Update the specified resource in storage.
-async function showFollowers(req, res) {
-  const user = await User.findById(req.user.id).populate("followers");
+async function followers(req, res) {
+  const user = await User.findById(req.params.id, "followers").populate("followers");
   res.json({ user });
 }
 
-async function showFollowing(req, res) {
-  const user = await User.findById(req.user.id).populate("following");
+async function following(req, res) {
+  const user = await User.findById(req.params.id, "following").populate("following");
   res.json({ user });
 }
 // Remove the specified resource from storage.
 async function destroy(req, res) {
-  await Tweet.deleteOne({ _id: req.params.id });
-  await User.updateOne({ _id: req.user.id }, { $pull: { tweets: req.params.id } });
+  await Tweet.deleteOne({ _id: req.params.tweetId });
+  await User.updateOne({ _id: req.body.user.id }, { $pull: { tweets: req.params.tweeetId } });
 
   res.status(201);
 }
@@ -103,7 +143,7 @@ async function destroy(req, res) {
 // Otros handlers...
 // ...
 async function edit(req, res) {
-  const user = await User.findOne({ _id: req.user.id });
+  const user = await User.findOne({ _id: req.params.id });
   console.log(user);
   res.json({ user });
 }
@@ -136,9 +176,13 @@ module.exports = {
   store,
   logout,
   followUnfollow,
-  showFollowers,
-  showFollowing,
+  followers,
+  following,
   destroy,
   edit,
   update,
+  user,
+  followingTweets,
+  userTweets,
+  userRecomended,
 };
