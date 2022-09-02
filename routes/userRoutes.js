@@ -9,15 +9,21 @@ userRouter.post("/tweet/:id", userController.store);
 userRouter.post("/tweetLike/:id", userController.like);
 userRouter.delete("/", userController.logout);
 
+userRouter.get("/:id", recomendedUsers, userController.user);
+userRouter.get("/tweets/:userId", recomendedUsers, userController.userTweets);
+userRouter.get("/recomended/:userId", recomendedUsers, userController.userRecomended);
+userRouter.get("/following/:userId", recomendedUsers, userController.following);
+userRouter.get("/followers/:userId", recomendedUsers, userController.followers);
+userRouter.get("/followingTweets/:userId", recomendedUsers, userController.followingTweets);
+
 userRouter.get("/profile/:id", recomendedUsers, userController.show);
 userRouter.get("/mainProfile/:id", recomendedUsers, userController.index);
-userRouter.get("/mainProfile/:id/followers", recomendedUsers, userController.showFollowers);
-userRouter.get("/mainProfile/:id/following", recomendedUsers, userController.showFollowing);
+
 userRouter.get("/mainProfile/:id/edit", recomendedUsers, userController.edit);
 userRouter.patch("/mainProfile/:id/edit", userController.update);
 
 userRouter.post("/profile/:id", userController.followUnfollow);
 
-userRouter.delete("/mainProfile/:id", userController.destroy);
+userRouter.delete("/mainProfile/:tweetId", userController.destroy);
 
 module.exports = userRouter;

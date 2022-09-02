@@ -1,20 +1,12 @@
 const express = require("express");
 const publicRouter = express.Router();
 const pagesController = require("../controllers/pagesController");
-// const authenticatePassport = require("../middlewares/passportAuthenticate");
-// const verifyAuth = require("../middlewares/verifyAuthenticated");
-// const verifyNoAuth = require("../middlewares/verifyNoAuthenticated");
 const recomendedUsers = require("../middlewares/sendDataToPartials");
 
 // Rutas Públicas:
 // ...
-// publicRouter.get("/", verifyNoAuth, recomendedUsers, pagesController.home);
-publicRouter.get("/:userId", recomendedUsers, pagesController.home);
-// publicRouter.get("/welcome", verifyAuth, pagesController.welcome);
-publicRouter.get("/welcome", pagesController.welcome);
-publicRouter.post("/login/:emailOrUsername/:password", pagesController.login);
-// publicRouter.post("/login", authenticatePassport);
-// publicRouter.post("/login", verifyAuth, authenticatePassport);
+
+publicRouter.post("/login", pagesController.login);
 publicRouter.post("/users", pagesController.store);
 
 publicRouter.get("/enConstruccion", pagesController.error);
