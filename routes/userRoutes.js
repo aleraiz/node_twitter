@@ -10,6 +10,7 @@ userRouter.post("/tweetLike/:id", userController.like);
 userRouter.delete("/", userController.logout);
 
 userRouter.get("/:id", recomendedUsers, userController.user);
+userRouter.get("/avatar/:id", recomendedUsers, userController.avatar);
 userRouter.get("/tweets/:userId", recomendedUsers, userController.userTweets);
 userRouter.get("/recomended/:userId", recomendedUsers, userController.userRecomended);
 userRouter.get("/following/:userId", recomendedUsers, userController.following);

@@ -7,7 +7,6 @@ async function login(req, res) {
   const user = await User.findOne({
     $or: [{ email: req.body.emailOrUsername }, { username: req.body.emailOrUsername }],
   });
-  console.log({ user });
   if (!user) {
     return res.json({ message: "credenciales invalidas" });
   } else {

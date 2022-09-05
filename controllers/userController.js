@@ -32,15 +32,18 @@ async function userTweets(req, res) {
 }
 
 async function userRecomended(req, res) {
-  const mainUser = await User.findById(req.params.id);
-
+  // console.log(req.params);
+  const mainUser = await User.findById(req.params.userId);
+  // res.json({ mainUser });
   const otherUsers = await User.find({ _id: { $ne: mainUser.id } }, `id`);
-  const otherUsersId = [];
-  for (let i = 0; i < otherUsers.length; i++) {
-    otherUsersId.push(otherUsers[i]._id);
-  }
+  // res.json({ otherUsers });
+  // const otherUsersId = [];
+  // for (let i = 0; i < otherUsers.length; i++) {
+  //   otherUsersId.push(otherUsers[i]._id);
+  // }
   const usersFollowed = mainUser.following;
-  const allRecomendedUsers = otherUsersId.filter((x) => !usersFollowed.includes(x));
+  const allRecomendedUsers = otherUsers.filter((x) => !usersFollowed.includes(x.id));
+  // res.json({ allRecomendedUsers });
   const recomendedUsersId = lodash.sampleSize(allRecomendedUsers, 3);
   const recomendedUsers = [];
   for (let i = 0; i < recomendedUsersId.length; i++) {
@@ -169,6 +172,11 @@ async function update(req, res) {
   res.status(201);
 }
 
+async function avatar(req, res) {
+  const avatar = await User.find({ _id: req.params.id }, "profileImg");
+  res.json({ avatar });
+}
+
 module.exports = {
   index,
   show,
@@ -185,4 +193,5 @@ module.exports = {
   followingTweets,
   userTweets,
   userRecomended,
+  avatar,
 };
