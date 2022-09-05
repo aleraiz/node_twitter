@@ -66,8 +66,7 @@ async function index(req, res) {
 // Display the specified resource.
 async function show(req, res) {
   const selectedUser = await User.findById(req.params.id).populate("tweets");
-  const user = req.user;
-  res.json({ user, selectedUser });
+  res.json({ selectedUser });
 }
 
 // Show the form for creating a new resource
@@ -101,18 +100,22 @@ async function store(req, res) {
 }
 
 async function followUnfollow(req, res) {
-  const mainUser = await User.findById(req.body.user.id);
+  // console.log(req.body);
+  const mainUser = await User.findById(req.body.user);
   const user = await User.findOne({ _id: req.params.id });
+  console.log("ok");
 
-  if (!user.followers.includes(mainUser.id)) {
-    await User.updateOne({ _id: user.id }, { $push: { followers: mainUser.id } });
-    await User.updateOne({ _id: mainUser.id }, { $push: { following: user.id } });
-    console.log("se dio follow");
-  } else {
-    await User.updateOne({ _id: user.id }, { $pull: { followers: mainUser.id } });
-    await User.updateOne({ _id: mainUser.id }, { $pull: { following: user.id } });
-    console.log("se quito follow");
-  }
+  console.log("main", mainUser);
+  console.log("user", user);
+  // if (!user.followers.includes(mainUser.id)) {
+  //   await User.updateOne({ _id: user.id }, { $push: { followers: mainUser.id } });
+  //   await User.updateOne({ _id: mainUser.id }, { $push: { following: user.id } });
+  //   console.log("se dio follow");
+  // } else {
+  //   await User.updateOne({ _id: user.id }, { $pull: { followers: mainUser.id } });
+  //   await User.updateOne({ _id: mainUser.id }, { $pull: { following: user.id } });
+  //   console.log("se quito follow");
+  // }
   res.status(201);
 }
 
